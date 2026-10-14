@@ -1,0 +1,15 @@
+@Pogoda_HostAddress = http://localhost:5184
+
+GET {{Pogoda_HostAddress}}/weatherforecast/
+Accept: application/json
+
+POST {{Pogoda_HostAddress}}/Users/register
+Content-Type: application/json
+
+{
+"username": "testuser",
+"email": "[testuser@example.com](mailto:testuser@example.com)",
+"password": "TestoweHaslo123!"
+}
+
+###
