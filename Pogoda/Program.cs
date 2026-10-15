@@ -21,13 +21,16 @@ namespace Pogoda
             builder.Services.AddHttpClient<GeocodingClient>();
             builder.Services.AddScoped<IMeteoResolver, MeteoResolver>();
 
-
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("ReactPolicy", policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost:5173")
+                        .WithOrigins(
+                            "http://localhost:5173",
+                            builder.Configuration["FrontendUrl"]
+                                ?? "https://weatherapp-production-c2eb.up.railway.app"
+                        )
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -44,7 +47,7 @@ namespace Pogoda
                 ));
 
             var jwtKey = builder.Configuration["Jwt:Key"]
-            ?? throw new InvalidOperationException("Brak klucza JWT.");
+                ?? throw new InvalidOperationException("Brak klucza JWT.");
 
             var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
             var jwtAudience = builder.Configuration["Jwt:Audience"]!;
@@ -66,9 +69,9 @@ namespace Pogoda
                         ClockSkew = TimeSpan.FromSeconds(30)
                     };
                 });
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
