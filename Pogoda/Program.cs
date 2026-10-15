@@ -29,7 +29,7 @@ namespace Pogoda
                         .WithOrigins(
                             "http://localhost:5173",
                             builder.Configuration["FrontendUrl"]
-                                ?? "https://weatherapp-production-c2eb.up.railway.app"
+                                ?? "https://kind-nature-production-0b17.up.railway.app/"
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod();
